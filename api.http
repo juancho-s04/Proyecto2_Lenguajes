@@ -1,0 +1,13 @@
+
+POST http://localhost:8000/api/login
+Content-Type: application/json
+
+{
+ "email": "admin@demo.com",
+ "password": "admin123"
+}
+
+###
+GET http://localhost:8000/api/usuarios
+Authorization: Bearer 2|3SAdRkQdjdj3fnhV6vRzeKEvrH80q8HnbwI6QPe426a184a8
+Accept: application/json 
