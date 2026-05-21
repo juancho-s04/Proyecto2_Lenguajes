@@ -5,10 +5,20 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ConsultoriaController;
+use App\Http\Controllers\SolicitudController;
 
 Route::middleware(['auth:sanctum', 'role:ADMINISTRADOR'])->group(function () {
     Route::apiResource('usuarios', UserController::class);
+    Route::apiResource('roles', RolController::class)->parameters(['roles' => 'rol']);
+    Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('consultorias', ConsultoriaController::class);
+    Route::apiResource('solicitudes', SolicitudController::class)->parameters(['solicitudes' => 'solicitud']);
 });
+
+Route::post('/registro', [UserController::class, 'register']);
 
 // Login
 Route::post('/login', function (Request $request) {
@@ -31,3 +41,4 @@ Route::post('/logout', function (Request $request) {
 Route::middleware('auth:sanctum')->get('/perfil', function (Request $request) {
     return $request->user();
 });
+

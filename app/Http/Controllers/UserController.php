@@ -4,17 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Rol;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function register(Request $request)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'telefono' => 'nullable|string|max:50',
+            'empresa' => 'nullable|string|max:255',
+        ]);
+
+        $clienteRol = Rol::where('nombre', 'CLIENTE')->firstOrFail();
+
+        $data['password'] = Hash::make($data['password']);
+        $data['rol_id'] = $clienteRol->id;
+
+        $usuario = User::create($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $usuario->load('rol'),
+            'message' => 'Usuario registrado exitosamente'
+        ], 201);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $usuarios = User::with('rol')->get();
-        return response()->json($usuarios);
+        return response()->json([
+            'success' => true,
+            'data' => $usuarios
+        ]);
     }
 
     /**
@@ -26,6 +54,8 @@ class UserController extends Controller
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
+            'telefono' => 'nullable|string|max:50',
+            'empresa' => 'nullable|string|max:255',
             'rol_id' => 'required|exists:roles,id',
         ]);
 
@@ -33,15 +63,23 @@ class UserController extends Controller
 
         $usuario = User::create($data);
 
-        return response()->json($usuario, 201);
+        return response()->json([
+            'success' => true,
+            'data' => $usuario,
+            'message' => 'Usuario creado exitosamente'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $usuario)
     {
-        return response()->json(User::with('rol')->findOrFail($id));
+        return response()->json([
+            'success' => true,
+            'data' => $usuario->load('rol'),
+            'message' => 'Usuario obtenido correctamente'
+        ]);
     }
 
     /**
@@ -53,6 +91,8 @@ class UserController extends Controller
             'nombre' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|unique:users,email,' . $usuario->id,
             'password' => 'sometimes|nullable|string|min:6',
+            'telefono' => 'nullable|string|max:50',
+            'empresa' => 'nullable|string|max:255',
             'rol_id' => 'sometimes|required|exists:roles,id',
         ]);
 
@@ -63,7 +103,11 @@ class UserController extends Controller
         }
         $usuario->update($data);
 
-        return response()->json($usuario);
+        return response()->json([
+            'success' => true,
+            'data' => $usuario,
+            'message' => 'Usuario actualizado exitosamente'
+        ]);
     }
 
     /**
@@ -72,6 +116,9 @@ class UserController extends Controller
     public function destroy(User $usuario)
     {
         $usuario->delete();
-        return response()->json(['message' => 'Usuario eliminado']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario eliminado'
+        ]);
     }
 }
