@@ -5,8 +5,6 @@ use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
-Route::get('/', function () {
-    return view('welcome');
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'es'])) {
         Session::put('locale', $locale);

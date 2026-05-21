@@ -1,5 +1,3 @@
-//
-// Controla el login desde la vista en Laravel
 const loginForm = document.getElementById('loginForm');
 const submitButton = document.getElementById('submitButton');
 const tokenResult = document.getElementById('tokenResult');
