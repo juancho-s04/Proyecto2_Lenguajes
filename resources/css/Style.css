@@ -1,0 +1,228 @@
+:root {
+    --brand: #1d4ed8;
+    --brand-600: #2563eb;
+    --brand-dark: #0f2f6f;
+    --brand-cyan: #0ea5e9;
+    --ink: #111827;
+    --muted: #64748b;
+    --surface: #ffffff;
+    --page: #f6f8fb;
+    --line: #dbe4f0;
+    --brand-gradient: linear-gradient(135deg, var(--brand-600), var(--brand-cyan));
+    --hero-overlay: linear-gradient(90deg, rgba(15, 47, 111, .94), rgba(29, 78, 216, .74));
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at top left, rgba(14, 165, 233, .10), transparent 26rem),
+        radial-gradient(circle at right 18rem, rgba(37, 99, 235, .08), transparent 24rem),
+        var(--page) !important;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, .96) !important;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, .05) !important;
+}
+
+.navbar-brand {
+    color: var(--brand-600) !important;
+}
+
+.brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+}
+
+.brand-logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.nav-link {
+    color: #475569;
+    font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--brand);
+}
+
+.page-hero {
+    background:
+        var(--hero-overlay),
+        url('/images/hero-consultoria.jpg') center/cover;
+    color: #fff;
+    border-bottom: 0 !important;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .14);
+}
+
+.page-hero .lead,
+.page-hero .text-secondary {
+    color: rgba(255, 255, 255, .78) !important;
+}
+
+.page-hero .badge {
+    background: rgba(255, 255, 255, .16) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, .26);
+}
+
+.section-panel,
+.card {
+    border: 1px solid var(--line) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 24px 56px rgba(15, 23, 42, .08) !important;
+}
+
+.section-panel {
+    background: rgba(255, 255, 255, .98);
+}
+
+.quick-panel {
+    background: rgba(255, 255, 255, .98);
+    border: 1px solid rgba(219, 228, 240, .9);
+    border-radius: 8px;
+    box-shadow: 0 16px 42px rgba(15, 23, 42, .12);
+}
+
+.quick-panel h2,
+.quick-panel .h5 {
+    color: var(--ink) !important;
+}
+
+.page-title,
+.section-title {
+    color: var(--brand) !important;
+}
+
+.text-secondary {
+    color: var(--muted) !important;
+}
+
+.badge.text-bg-primary {
+    background-color: var(--brand) !important;
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: var(--brand-gradient);
+    border: 0;
+    box-shadow: 0 12px 24px rgba(37, 99, 235, .22);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #1d4ed8, #0284c7);
+}
+
+.btn-outline-primary {
+    color: var(--brand);
+    border-color: rgba(29, 78, 216, .38);
+}
+
+.btn-outline-primary:hover {
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+.form-control,
+.form-select {
+    border-color: var(--line);
+    border-radius: 6px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 .22rem rgba(37, 99, 235, .13);
+}
+
+.table {
+    --bs-table-hover-bg: #f8fbff;
+}
+
+.table thead th {
+    background: #eef4ff !important;
+    color: #1e3a8a;
+    border-bottom: 1px solid var(--line);
+    font-size: .84rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.module-card {
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 46px rgba(15, 23, 42, .10) !important;
+}
+
+.service-image {
+    height: 150px;
+    object-fit: cover;
+}
+
+.auth-shell {
+    min-height: calc(100vh - 73px);
+}
+
+.form-page {
+    min-height: 100vh;
+    background:
+        var(--hero-overlay),
+        url('/images/hero-consultoria.jpg') center/cover fixed !important;
+}
+
+.form-page main {
+    min-height: calc(100vh - 73px);
+    display: flex;
+    align-items: center;
+}
+
+.form-page .card {
+    background: rgba(255, 255, 255, .98);
+    border: 0 !important;
+    box-shadow: 0 26px 60px rgba(15, 23, 42, .14) !important;
+}
+
+.form-page .page-title {
+    color: var(--ink) !important;
+}
+
+.form-page .navbar {
+    background: rgba(255, 255, 255, .98) !important;
+}
+
+@media (max-width: 767.98px) {
+    .page-hero {
+        background:
+            linear-gradient(180deg, rgba(15, 47, 111, .98), rgba(29, 78, 216, .82)),
+            url('/images/hero-consultoria.jpg') center/cover;
+    }
+
+    .table {
+        min-width: 760px;
+    }
+}

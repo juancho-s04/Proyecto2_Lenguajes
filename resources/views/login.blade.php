@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Consultoria Legal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    @vite(['resources/css/Style.css', 'resources/css/login.css'])
+</head>
+
+<body class="login-page">
+    <main class="py-4 py-lg-5">
+        <div class="container login-shell d-flex align-items-center justify-content-center">
+            <div class="login-card-wrap w-100">
+                <section class="login-card p-4 p-lg-5">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="login-accent">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo de Consultoria Legal"
+                                class="login-logo">
+                        </div>
+                        <div>
+                            <span class="badge text-bg-primary mb-2">Acceso administrador o cliente</span>
+                            <h1 class="section-title h2 mb-2 page-title">Iniciar sesion</h1>
+                            <p class="text-secondary mb-0">Accede con tu correo y contrasena. El sistema te enviara al
+                                panel segun tu rol.</p>
+                        </div>
+                    </div>
+
+                    <div id="statusMessage" class="alert status-box" role="alert"></div>
+
+                    <form id="loginForm" class="d-grid gap-3">
+                        @csrf
+
+                        <div>
+                            <label for="email" class="form-label fw-semibold">Correo electronico</label>
+                            <input id="email" name="email" type="email" class="form-control form-control-lg"
+                                placeholder="nombre@empresa.com" required>
+                        </div>
+
+                        <div>
+                            <label for="password" class="form-label fw-semibold">Contrasena</label>
+                            <input id="password" name="password" type="password" class="form-control form-control-lg"
+                                placeholder="Ingresa tu contrasena" required>
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+                            <a href="/registro" class="text-decoration-none fw-semibold text-primary">Crear cuenta</a>
+                        </div>
+
+                        <button id="submitButton" type="submit" class="btn btn-primary btn-lg btn-login">
+                            Entrar al sistema
+                        </button>
+                    </form>
+
+                    <section class="login-service-panel mt-4">
+                        <div class="service-panel-copy">
+                            <span class="service-kicker">Tu espacio de trabajo</span>
+                            <h2 class="h5 mb-2">Gestiona tus consultorias desde un solo lugar</h2>
+                            <p class="text-secondary mb-0">
+                                Revisa servicios disponibles, registra solicitudes y da seguimiento a cada tramite
+                                con una experiencia clara para clientes y administradores.
+                            </p>
+                        </div>
+                        <div class="service-feature-list">
+                            <div class="service-feature-item">
+                                <strong>Consultorias</strong>
+                                <span>Legal, ambiental e industrial</span>
+                            </div>
+                            <div class="service-feature-item">
+                                <strong>Solicitudes</strong>
+                                <span>Registro y control del estado</span>
+                            </div>
+                            <div class="service-feature-item">
+                                <strong>Acceso por rol</strong>
+                                <span>Panel segun tu perfil</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="visually-hidden">
+                        <label for="roleResult" class="form-label fw-semibold">Rol detectado</label>
+                        <input id="roleResult" class="form-control mb-3"
+                            placeholder="Aqui aparecera el rol autenticado." readonly>
+
+                        <label for="tokenResult" class="form-label fw-semibold">Token recibido</label>
+                        <textarea id="tokenResult" class="form-control" rows="5" placeholder="Aqui aparecera el JWT despues del login."
+                            readonly></textarea>
+                        <p class="text-secondary small mt-2 mb-0">El token queda en una cookie HttpOnly para navegar por
+                            las vistas protegidas.</p>
+                    </div>
+
+                    <div class="credential-pill p-3 mt-4 visually-hidden">
+                        <div class="d-flex flex-column gap-2">
+                            <div class="small text-primary fw-semibold">Credenciales de prueba temporales</div>
+                            <div class="small text-dark"><strong>Admin:</strong> admin@demo.com / admin123</div>
+                            <div class="small text-dark"><strong>Cliente:</strong> cliente@demo.com / cliente123</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ asset('js/loginController.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

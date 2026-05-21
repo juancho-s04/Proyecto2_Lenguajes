@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios | Consultoria Legal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/css/Style.css'])
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold brand-link" href="{{ url('/') }}">
+                <img class="brand-logo" src="{{ asset('images/logo.png') }}" alt="Logo de Consultoria Legal">
+                <span>Consultoria Legal</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#serviciosNav"
+                aria-controls="serviciosNav" aria-expanded="false" aria-label="Abrir navegacion">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="serviciosNav">
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item"><a class="nav-link active" href="{{ url('/vista/servicios') }}">Servicios</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/solicitudes') }}">Solicitudes</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-primary" href="{{ url('/user') }}">Panel cliente</a>
+                    </li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar
+                            sesion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero py-5">
+        <div class="container">
+            <span class="badge text-bg-primary mb-3">Servicios disponibles</span>
+            <h1 class="display-6 fw-bold mb-3">Consultorias que ofrece la empresa.</h1>
+            <p class="lead text-secondary mb-0">Consulta los servicios registrados y crea una solicitud cuando necesites
+                asesoria.</p>
+        </div>
+    </header>
+
+    <main class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                @foreach ($consultorias as $consultoria)
+                    <div class="col-md-6 col-xl-4">
+                        <article class="card module-card h-100 overflow-hidden">
+                            @if ($consultoria->tipo == 'Legal')
+                                <img class="service-image w-100" src="{{ asset('images/consultoria-legal.jpg') }}"
+                                    alt="Consultoria legal">
+                            @endif
+                            @if ($consultoria->tipo == 'Ambiental')
+                                <img class="service-image w-100" src="{{ asset('images/consultoria-ambiental.jpg') }}"
+                                    alt="Consultoria ambiental">
+                            @endif
+                            @if ($consultoria->tipo == 'Industrial')
+                                <img class="service-image w-100" src="{{ asset('images/consultoria-industrial.jpg') }}"
+                                    alt="Consultoria industrial">
+                            @endif
+
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="d-flex justify-content-between gap-3 mb-3">
+                                    <h2 class="h5 mb-0 section-title">{{ $consultoria->tipo }}</h2>
+                                </div>
+                                <p class="text-secondary">{{ $consultoria->descripcion }}</p>
+                                <a class="btn btn-primary mt-auto"
+                                    href="{{ url('/vista/solicitudes/nueva') }}">Solicitar consultoria</a>
+                            </div>
+                        </article>
+                    </div>
+                @endforeach
+
+                @if ($consultorias->isEmpty())
+                    <div class="col-12">
+                        <div class="alert alert-info mb-0">Aun no hay servicios de consultoria registrados.</div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

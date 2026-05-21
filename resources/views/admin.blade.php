@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin | Consultoria Legal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    @vite(['resources/css/Style.css'])
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold brand-link" href="{{ url('/') }}">
+                <img class="brand-logo" src="{{ asset('images/logo.png') }}" alt="Logo de Consultoria Legal">
+                <span>Consultoria Legal</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav"
+                aria-controls="adminNav" aria-expanded="false" aria-label="Abrir navegacion">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="adminNav">
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/clientes') }}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/consultorias') }}">Consultorias</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/solicitudes') }}">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/usuarios') }}">Usuarios</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar
+                            sesion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero py-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <span class="badge text-bg-primary mb-3">Vista de administrador</span>
+                    <h1 class="display-6 fw-bold mb-3">Panel de administracion del sistema.</h1>
+                    <p class="lead text-secondary mb-0">
+                        Acceso central para administrar clientes, consultorias, solicitudes,
+                        usuarios y roles del proyecto.
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="quick-panel">
+                        <div class="card-body p-4">
+                            <h2 class="h5 mb-3">Acciones principales</h2>
+                            <div class="d-grid gap-2">
+                                <a href="{{ url('/vista/clientes/nuevo') }}" class="btn btn-primary">Crear cliente</a>
+                                <a href="{{ url('/vista/consultorias/nueva') }}" class="btn btn-outline-primary">Crear
+                                    consultoria</a>
+                                <a href="{{ url('/vista/solicitudes/nueva') }}" class="btn btn-outline-primary">Crear
+                                    solicitud</a>
+                                <a href="{{ url('/vista/usuarios/nuevo') }}" class="btn btn-outline-secondary">Crear
+                                    usuario</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 col-xl-3">
+                    <article class="card module-card h-100">
+                        <div class="card-body p-4">
+                            <h2 class="h5 section-title">Clientes</h2>
+                            <p class="text-secondary">Gestiona empresas, contactos y datos comerciales.</p>
+                            <a class="btn btn-outline-primary w-100" href="{{ url('/vista/clientes') }}">Abrir
+                                modulo</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="card module-card h-100">
+                        <div class="card-body p-4">
+                            <h2 class="h5 section-title">Consultorias</h2>
+                            <p class="text-secondary">Revisa servicios, estados y clientes asociados.</p>
+                            <a class="btn btn-outline-primary w-100" href="{{ url('/vista/consultorias') }}">Abrir
+                                modulo</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="card module-card h-100">
+                        <div class="card-body p-4">
+                            <h2 class="h5 section-title">Solicitudes</h2>
+                            <p class="text-secondary">Administra solicitudes y seguimiento del proceso.</p>
+                            <a class="btn btn-outline-primary w-100" href="{{ url('/vista/solicitudes') }}">Abrir
+                                modulo</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="card module-card h-100">
+                        <div class="card-body p-4">
+                            <h2 class="h5 section-title">Usuarios y roles</h2>
+                            <p class="text-secondary">Consulta usuarios registrados y roles disponibles.</p>
+                            <div class="d-grid gap-2">
+                                <a class="btn btn-outline-primary" href="{{ url('/vista/usuarios') }}">Usuarios</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
