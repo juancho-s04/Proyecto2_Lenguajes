@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8000/api/usuarios
-Authorization: Bearer 5|zDegwzIppwGK6xBYqtqMAPgV9xVuSsJce1TJjuyd20101f2f
+Authorization: Bearer 8|lYaNGN9fRWFO6kqeB9ZhVWJSkzcJCLR21wEH7GwBc746512e
 Accept: application/json 
 
 ###
