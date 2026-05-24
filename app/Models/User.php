@@ -43,8 +43,13 @@ class User extends Authenticatable
     }
 
     // un usuario puede tener muchas solicitudes
-     public function solicitudes()
+    public function solicitudes()
     {
         return $this->hasMany(Solicitud::class);
+    }
+
+    public function getRolIdAttribute(): ?int
+    {
+        return $this->attributes['rol_id'] ?? null;
     }
 }

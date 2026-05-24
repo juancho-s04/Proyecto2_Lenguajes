@@ -33,6 +33,26 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function registerWeb(Request $request)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'telefono' => 'nullable|string|max:50',
+            'empresa' => 'nullable|string|max:255',
+        ]);
+
+        $clienteRol = Rol::where('nombre', 'CLIENTE')->firstOrFail();
+
+        $data['password'] = Hash::make($data['password']);
+        $data['rol_id'] = $clienteRol->id;
+
+        User::create($data);
+
+        return redirect('/login')->with('successMessage', 'Cuenta creada correctamente. Ya puedes iniciar sesion.');
+    }
+
     /**
      * Display a listing of the resource.
      */

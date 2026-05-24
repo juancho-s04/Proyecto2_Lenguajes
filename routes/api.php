@@ -28,7 +28,11 @@ Route::post('/login', function (Request $request) {
     }
 
     $token = $user->createToken('token')->plainTextToken;
-    return response()->json(['token' => $token]);
+    return response()->json([
+        'token' => $token,
+        'rol' => $user->rol?->nombre,
+        'user' => $user->load('rol'),
+    ]);
 });
 
 // Logout
@@ -41,4 +45,3 @@ Route::post('/logout', function (Request $request) {
 Route::middleware('auth:sanctum')->get('/perfil', function (Request $request) {
     return $request->user();
 });
-

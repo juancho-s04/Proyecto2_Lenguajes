@@ -11,15 +11,15 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @vite(['resources/css/Style.css'])
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold brand-link" href="{{ url('/') }}">
-                <img class="brand-logo" src="{{ asset('images/logo.png') }}" alt="Logo de Consultoria Legal"
-                    style="height: 40px; width: auto; object-fit: contain;" class="d-inline-block align-top me-2">
+                <img class="brand-logo d-inline-block align-top me-2" src="{{ asset('images/logo.png') }}"
+                    alt="Logo de Consultoria Legal" style="height: 40px; width: auto; object-fit: contain;">
                 <span>Consultoria Legal</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNav"

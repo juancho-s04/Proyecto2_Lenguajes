@@ -35,7 +35,15 @@
 
                     <div id="statusMessage" class="alert status-box" role="alert"></div>
 
-                    <form id="loginForm" class="d-grid gap-3">
+                    @if (session('successMessage'))
+                        <div class="alert alert-success">{{ session('successMessage') }}</div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">Credenciales invalidas.</div>
+                    @endif
+
+                    <form id="loginForm" action="{{ url('/login') }}" method="POST" class="d-grid gap-3">
                         @csrf
 
                         <div>
@@ -108,7 +116,6 @@
         </div>
     </main>
 
-    <script src="{{ asset('js/loginController.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
