@@ -27,18 +27,13 @@
             </button>
             <div class="collapse navbar-collapse" id="serviciosNav">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item"><a class="nav-link active"
-                            href="{{ url('/vista/cliente/servicios') }}">Servicios</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            href="{{ url('/vista/cliente/solicitudes') }}">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url('/vista/servicios') }}">Servicios</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/solicitudes') }}">Solicitudes</a></li>
                     <li class="nav-item"><a class="btn btn-outline-primary" href="{{ url('/user') }}">Panel cliente</a>
                     </li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger">Cerrar sesion</button>
-                        </form>
-                    </li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar
+                            sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -78,7 +73,7 @@
                                 </div>
                                 <p class="text-secondary">{{ $consultoria->descripcion }}</p>
                                 <a class="btn btn-primary mt-auto"
-                                    href="{{ url('/vista/cliente/solicitudes/nueva') }}">Solicitar consultoria</a>
+                                    href="{{ url('/vista/solicitudes/nueva') }}">Solicitar consultoria</a>
                             </div>
                         </article>
                     </div>

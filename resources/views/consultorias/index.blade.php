@@ -27,19 +27,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="consultoriasNav">
-                <ul class="navbar-nav ms-auto gap-lg-2 align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/admin/clientes') }}">Clientes</a></li>
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/clientes') }}">Clientes</a></li>
                     <li class="nav-item"><a class="nav-link active"
-                            href="{{ url('/vista/admin/consultorias') }}">Consultorias</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            href="{{ url('/vista/admin/solicitudes') }}">Solicitudes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/admin/usuarios') }}">Usuarios</a></li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Cerrar sesion</button>
-                        </form>
-                    </li>
+                            href="{{ url('/vista/consultorias') }}">Consultorias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/solicitudes') }}">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/usuarios') }}">Usuarios</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar
+                            sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -60,9 +55,9 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones rapidas</h2>
                             <div class="d-grid gap-2">
-                                <a href="{{ url('/vista/admin/consultorias/nueva') }}" class="btn btn-primary">Nueva
+                                <a href="{{ url('/vista/consultorias/nueva') }}" class="btn btn-primary">Nueva
                                     consultoria</a>
-                                <a href="{{ url('/vista/admin/clientes') }}" class="btn btn-outline-secondary">Explorar
+                                <a href="{{ url('/vista/clientes') }}" class="btn btn-outline-secondary">Explorar
                                     clientes</a>
                             </div>
                         </div>
@@ -83,8 +78,7 @@
                             <p class="text-secondary mb-0">Mantiene actualizado el catalogo de servicios visibles para
                                 los clientes.</p>
                         </div>
-                        <a class="btn btn-primary" href="{{ url('/vista/admin/consultorias/nueva') }}">Nueva
-                            consultoria</a>
+                        <a class="btn btn-primary" href="{{ url('/vista/consultorias/nueva') }}">Nueva consultoria</a>
                     </div>
 
                     @if (session('successMessage'))
@@ -112,10 +106,10 @@
                                         <td class="text-end">
                                             <div class="d-inline-flex gap-2">
                                                 <a class="btn btn-sm btn-outline-primary"
-                                                    href="{{ url('/vista/admin/consultorias/editar/' . $consultoria->id) }}">Editar</a>
+                                                    href="{{ url('/vista/consultorias/editar/' . $consultoria->id) }}">Editar</a>
 
                                                 <form
-                                                    action="{{ url('/vista/admin/consultorias/eliminar/' . $consultoria->id) }}"
+                                                    action="{{ url('/vista/consultorias/eliminar/' . $consultoria->id) }}"
                                                     method="POST" class="m-0"
                                                     onsubmit="return confirm('Seguro que deseas eliminar esta consultoria?');">
                                                     @csrf

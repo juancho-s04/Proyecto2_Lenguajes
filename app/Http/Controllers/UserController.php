@@ -33,31 +33,25 @@ class UserController extends Controller
         ], 201);
     }
 
-public function registerWeb(Request $request)
-{
-    $data = $request->validate([
-        'nombre'   => 'required|string|max:255',
-        'email'    => 'required|email|unique:users,email',
-        'password' => 'required|string|min:6',
-        'telefono' => 'nullable|string|max:50',
-        'empresa'  => 'nullable|string|max:255',
-    ]);
+    public function registerWeb(Request $request)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'telefono' => 'nullable|string|max:50',
+            'empresa' => 'nullable|string|max:255',
+        ]);
 
-    $clienteRol = Rol::where('nombre', 'CLIENTE')->firstOrFail();
+        $clienteRol = Rol::where('nombre', 'CLIENTE')->firstOrFail();
 
-    $data['password'] = Hash::make($data['password']);
-    $data['rol_id'] = $clienteRol->id;
+        $data['password'] = Hash::make($data['password']);
+        $data['rol_id'] = $clienteRol->id;
 
-    $usuario = User::create($data);
+        User::create($data);
 
-    $token = $usuario->createToken('auth_token')->plainTextToken;
-
-    return redirect('/user')->with([
-        'success' => '¡Cuenta creada con éxito! Bienvenido a tu panel.',
-        'access_token' => $token,
-        'user_data' => $usuario
-    ]);
-}
+        return redirect('/login')->with('successMessage', 'Cuenta creada correctamente. Ya puedes iniciar sesion.');
+    }
 
     /**
      * Display a listing of the resource.

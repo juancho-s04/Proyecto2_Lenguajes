@@ -27,20 +27,15 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="clientesNav">
-                <ul class="navbar-nav ms-auto gap-lg-2 align-items-center">
-                    <li class="nav-item"><a class="nav-link active"
-                            href="{{ url('/vista/admin/clientes') }}">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            href="{{ url('/vista/admin/consultorias') }}">Consultorias</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            href="{{ url('/vista/admin/solicitudes') }}">Solicitudes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/admin/usuarios') }}">Usuarios</a></li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Cerrar sesion</button>
-                        </form>
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item"><a class="nav-link active" href="{{ url('/vista/clientes') }}">Clientes</a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/consultorias') }}">Consultorias</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/solicitudes') }}">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/vista/usuarios') }}">Usuarios</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar
+                            sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -62,9 +57,8 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones rapidas</h2>
                             <div class="d-grid gap-2">
-                                <a href="{{ url('/vista/admin/clientes/nuevo') }}" class="btn btn-primary">Nuevo
-                                    cliente</a>
-                                <a href="{{ url('/vista/admin/consultorias') }}" class="btn btn-outline-secondary">Ver
+                                <a href="{{ url('/vista/clientes/nuevo') }}" class="btn btn-primary">Nuevo cliente</a>
+                                <a href="{{ url('/vista/consultorias') }}" class="btn btn-outline-secondary">Ver
                                     consultorias</a>
                             </div>
                         </div>
@@ -85,7 +79,7 @@
                             <p class="text-secondary mb-0">Consulta y administra la informacion comercial de cada
                                 cliente.</p>
                         </div>
-                        <a class="btn btn-primary" href="{{ url('/vista/admin/clientes/nuevo') }}">Nuevo cliente</a>
+                        <a class="btn btn-primary" href="{{ url('/vista/clientes/nuevo') }}">Nuevo cliente</a>
                     </div>
 
                     @if (session('successMessage'))
@@ -111,16 +105,17 @@
                                     <tr>
                                         <td>{{ $cliente->id }}</td>
                                         <td>{{ $cliente->nombre }}</td>
+
                                         <td>{{ !empty($cliente->empresa) ? $cliente->empresa : '-' }}</td>
+
                                         <td>{{ $cliente->telefono }}</td>
                                         <td>{{ $cliente->correo }}</td>
                                         <td class="text-end">
                                             <div class="d-inline-flex gap-2">
                                                 <a class="btn btn-sm btn-outline-primary"
-                                                    href="{{ url('/vista/admin/clientes/editar/' . $cliente->id) }}">Editar</a>
+                                                    href="{{ url('/vista/clientes/editar/' . $cliente->id) }}">Editar</a>
 
-                                                <form
-                                                    action="{{ url('/vista/admin/clientes/eliminar/' . $cliente->id) }}"
+                                                <form action="{{ url('/vista/clientes/eliminar/' . $cliente->id) }}"
                                                     method="POST" class="m-0"
                                                     onsubmit="return confirm('¿Seguro que deseas eliminar este cliente?');">
                                                     @csrf

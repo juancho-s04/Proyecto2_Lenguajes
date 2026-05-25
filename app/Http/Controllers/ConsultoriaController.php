@@ -13,8 +13,11 @@ class ConsultoriaController extends Controller
     public function index()
     {
         $consultorias = Consultoria::all();
-        
-        return view('consultorias.index', compact('consultorias'));
+        return response()->json([
+            'success' => true,
+            'data' => $consultorias,
+            'message' => __('messages.consultoria_list')
+        ]);
     }
 
     /**
@@ -27,35 +30,31 @@ class ConsultoriaController extends Controller
             'descripcion' => 'required|string',
         ]);
 
-        Consultoria::create($validated);
-        
-        return redirect('/vista/admin/consultorias')->with('successMessage', 'Consultoría creada exitosamente');
+        $consultoria = Consultoria::create($validated);
+        return response()->json([
+            'success' => true,
+            'data' => $consultoria,
+            'message' => 'Consultoria creada exitosamente'
+        ], 201);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified resource.
      */
-    public function create()
+    public function show(Consultoria $consultoria)
     {
-        return view('consultorias.create'); 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $consultoria = Consultoria::findOrFail($id);
-        return view('consultorias.edit', compact('consultoria')); 
+        return response()->json([
+            'success' => true,
+            'data' => $consultoria,
+            'message' => 'Consultoria obtenida correctamente'
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Consultoria $consultoria)
     {
-        $consultoria = Consultoria::findOrFail($id);
-
         $validated = $request->validate([
             'tipo' => 'sometimes|required|string',
             'descripcion' => 'sometimes|required|string',
@@ -63,17 +62,23 @@ class ConsultoriaController extends Controller
 
         $consultoria->update($validated);
 
-        return redirect('/vista/admin/consultorias')->with('successMessage', 'Consultoría actualizada correctamente');
+        return response()->json([
+            'success' => true,
+            'data' => $consultoria,
+            'message' => 'Consultoria actualizada correctamente'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Consultoria $consultoria)
     {
-        $consultoria = Consultoria::findOrFail($id);
         $consultoria->delete();
 
-        return redirect('/vista/admin/consultorias')->with('successMessage', 'Consultoría eliminada correctamente');
+        return response()->json([
+            'success' => true,
+            'message' => 'Consultoria eliminada correctamente'
+        ]);
     }
 }

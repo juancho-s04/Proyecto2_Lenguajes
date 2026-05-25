@@ -7,7 +7,9 @@
     <title>Formulario de Consultoria | Consultoria Legal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     @vite(['resources/css/Style.css'])
@@ -20,13 +22,9 @@
                 <img class="brand-logo" src="{{ asset('images/logo.png') }}" alt="Logo de Consultoria Legal">
                 <span>Consultoria Legal</span>
             </a>
-            <div class="d-flex gap-2 align-items-center">
-                <a class="btn btn-outline-primary" href="{{ url('/vista/admin/consultorias') }}">Volver a consultorias</a>
-                
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger">Cerrar sesion</button>
-                </form>
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-primary" href="{{ url('/vista/consultorias') }}">Volver a consultorias</a>
+                <a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar sesion</a>
             </div>
         </div>
     </nav>
@@ -72,7 +70,8 @@
 
                                 <div class="col-12 d-flex gap-2 pt-2">
                                     <button type="submit" class="btn btn-primary">Guardar consultoria</button>
-                                    <a href="{{ url('/vista/admin/consultorias') }}" class="btn btn-outline-secondary">Cancelar</a>
+                                    <a href="{{ url('/vista/consultorias') }}"
+                                        class="btn btn-outline-secondary">Cancelar</a>
                                 </div>
                             </form>
                         </div>

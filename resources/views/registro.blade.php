@@ -81,7 +81,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 d-flex flex-column flex-sm-row gap-3 pt-2">
+                                <div class="col-12 d-flex flex-column flex-sm-row gap-2 pt-2">
                                     <button type="submit" class="btn btn-primary">Crear cuenta</button>
                                     <a href="{{ url('/login') }}" class="btn btn-outline-secondary">Ya tengo cuenta</a>
                                 </div>
