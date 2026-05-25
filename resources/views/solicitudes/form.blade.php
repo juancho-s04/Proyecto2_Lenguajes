@@ -22,8 +22,8 @@
                 <span>Consultoria Legal</span>
             </a>
             <div class="d-flex gap-2">
-                <a class="btn btn-outline-primary" href="{{ url('/vista/solicitudes') }}">Volver a solicitudes</a>
-                <a class="btn btn-outline-danger" href="{{ url('/auth/logout') }}">Cerrar sesion</a>
+                <a class="btn btn-outline-primary" href="{{ url('/vista/cliente/solicitudes') }}">Volver a solicitudes</a>
+                <a href="{{ url('/vista/cliente/solicitudes') }}" class="btn btn-outline-secondary">Cancelar</a>
             </div>
         </div>
     </nav>

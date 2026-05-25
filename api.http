@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 GET http://localhost:8000/api/usuarios
 Authorization: Bearer 8|lYaNGN9fRWFO6kqeB9ZhVWJSkzcJCLR21wEH7GwBc746512e
-Accept: application/json 
+Accept: application/json
 
 ###
 POST http://localhost:8000/api/registro

@@ -10,6 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SolicitudRecibida;
 
 class PanelController extends Controller
 {
@@ -32,7 +34,7 @@ class PanelController extends Controller
         return view('cliente.form', [
             'cliente' => $cliente,
             'formTitle' => $cliente->exists ? 'Editar cliente' : 'Nuevo cliente',
-            'formAction' => $cliente->exists ? url('/vista/clientes/editar/'.$cliente->id) : url('/vista/clientes/nuevo'),
+            'formAction' => $cliente->exists ? url('/vista/admin/clientes/editar/' . $cliente->id) : url('/vista/admin/clientes/nuevo'),
         ]);
     }
 
@@ -40,21 +42,21 @@ class PanelController extends Controller
     {
         Cliente::create($this->validateCliente($request));
 
-        return redirect('/vista/clientes')->with('successMessage', 'Cliente guardado correctamente.');
+        return redirect('/vista/admin/clientes')->with('successMessage', 'Cliente guardado correctamente.');
     }
 
     public function clienteUpdate(Request $request, Cliente $cliente)
     {
         $cliente->update($this->validateCliente($request, $cliente));
 
-        return redirect('/vista/clientes')->with('successMessage', 'Cliente actualizado correctamente.');
+        return redirect('/vista/admin/clientes')->with('successMessage', 'Cliente actualizado correctamente.');
     }
 
     public function clienteDestroy(Cliente $cliente)
     {
         $cliente->delete();
 
-        return redirect('/vista/clientes')->with('successMessage', 'Cliente eliminado correctamente.');
+        return redirect('/vista/admin/clientes')->with('successMessage', 'Cliente eliminado correctamente.');
     }
 
     public function consultorias()
@@ -69,7 +71,7 @@ class PanelController extends Controller
         return view('consultorias.form', [
             'consultoria' => $consultoria,
             'formTitle' => $consultoria->exists ? 'Editar consultoria' : 'Nueva consultoria',
-            'formAction' => $consultoria->exists ? url('/vista/consultorias/editar/'.$consultoria->id) : url('/vista/consultorias/nueva'),
+            'formAction' => $consultoria->exists ? url('/vista/admin/consultorias/editar/' . $consultoria->id) : url('/vista/admin/consultorias/nueva'),
         ]);
     }
 
@@ -80,7 +82,7 @@ class PanelController extends Controller
             'descripcion' => 'required|string',
         ]));
 
-        return redirect('/vista/consultorias')->with('successMessage', 'Consultoria guardada correctamente.');
+        return redirect('/vista/admin/consultorias')->with('successMessage', 'Consultoria guardada correctamente.');
     }
 
     public function consultoriaUpdate(Request $request, Consultoria $consultoria)
@@ -90,14 +92,14 @@ class PanelController extends Controller
             'descripcion' => 'required|string',
         ]));
 
-        return redirect('/vista/consultorias')->with('successMessage', 'Consultoria actualizada correctamente.');
+        return redirect('/vista/admin/consultorias')->with('successMessage', 'Consultoria actualizada correctamente.');
     }
 
     public function consultoriaDestroy(Consultoria $consultoria)
     {
         $consultoria->delete();
 
-        return redirect('/vista/consultorias')->with('successMessage', 'Consultoria eliminada correctamente.');
+        return redirect('/vista/admin/consultorias')->with('successMessage', 'Consultoria de baja correctamente.');
     }
 
     public function servicios()
@@ -129,6 +131,8 @@ class PanelController extends Controller
             'correo_solicitante' => Auth::user()?->email,
         ]);
 
+        $prefix = $this->isAdmin() ? '/vista/admin' : '/vista/cliente';
+
         return view('solicitudes.form', [
             'solicitudForm' => $solicitud,
             'clientes' => Cliente::orderBy('nombre')->get(),
@@ -138,29 +142,37 @@ class PanelController extends Controller
             'isAdmin' => $this->isAdmin(),
             'isEdit' => $solicitud->exists,
             'formTitle' => $solicitud->exists ? 'Editar solicitud' : 'Nueva solicitud',
-            'formAction' => $solicitud->exists ? url('/vista/solicitudes/editar/'.$solicitud->id) : url('/vista/solicitudes/nueva'),
+            'formAction' => $solicitud->exists ? url($prefix . '/solicitudes/editar/' . $solicitud->id) : url($prefix . '/solicitudes/nueva'),
         ]);
     }
 
     public function solicitudStore(Request $request)
     {
-        Solicitud::create($this->validateSolicitud($request));
+        $solicitud = Solicitud::create($this->validateSolicitud($request));
 
-        return redirect('/vista/solicitudes')->with('successMessage', 'Solicitud guardada correctamente.');
+        if (!empty($solicitud->correo_solicitante)) {
+            Mail::to($solicitud->correo_solicitante)->queue(new SolicitudRecibida($solicitud));
+        }
+
+        $prefix = $this->isAdmin() ? '/vista/admin' : '/vista/cliente';
+
+        return redirect($prefix . '/solicitudes')->with('successMessage', 'Solicitud guardada correctamente y correo de confirmación enviado.');
     }
 
     public function solicitudUpdate(Request $request, Solicitud $solicitud)
     {
         $solicitud->update($this->validateSolicitud($request, $solicitud));
+        $prefix = $this->isAdmin() ? '/vista/admin' : '/vista/cliente';
 
-        return redirect('/vista/solicitudes')->with('successMessage', 'Solicitud actualizada correctamente.');
+        return redirect($prefix . '/solicitudes')->with('successMessage', 'Solicitud actualizada correctamente.');
     }
 
     public function solicitudDestroy(Solicitud $solicitud)
     {
         $solicitud->delete();
+        $prefix = $this->isAdmin() ? '/vista/admin' : '/vista/cliente';
 
-        return redirect('/vista/solicitudes')->with('successMessage', 'Solicitud eliminada correctamente.');
+        return redirect($prefix . '/solicitudes')->with('successMessage', 'Solicitud eliminada correctamente.');
     }
 
     public function usuarios()
@@ -177,7 +189,7 @@ class PanelController extends Controller
             'roles' => Rol::orderBy('nombre')->get(),
             'isEdit' => $usuario->exists,
             'formTitle' => $usuario->exists ? 'Editar usuario' : 'Nuevo usuario',
-            'formAction' => $usuario->exists ? url('/vista/usuarios/editar/'.$usuario->id) : url('/vista/usuarios/nuevo'),
+            'formAction' => $usuario->exists ? url('/vista/admin/usuarios/editar/' . $usuario->id) : url('/vista/admin/usuarios/nuevo'),
         ]);
     }
 
@@ -187,7 +199,7 @@ class PanelController extends Controller
         $data['password'] = Hash::make($data['password']);
         User::create($data);
 
-        return redirect('/vista/usuarios')->with('successMessage', 'Usuario guardado correctamente.');
+        return redirect('/vista/admin/usuarios')->with('successMessage', 'Usuario guardado correctamente.');
     }
 
     public function usuarioUpdate(Request $request, User $usuario)
@@ -202,14 +214,14 @@ class PanelController extends Controller
 
         $usuario->update($data);
 
-        return redirect('/vista/usuarios')->with('successMessage', 'Usuario actualizado correctamente.');
+        return redirect('/vista/admin/usuarios')->with('successMessage', 'Usuario actualizado correctamente.');
     }
 
     public function usuarioDestroy(User $usuario)
     {
         $usuario->delete();
 
-        return redirect('/vista/usuarios')->with('successMessage', 'Usuario eliminado correctamente.');
+        return redirect('/vista/admin/usuarios')->with('successMessage', 'Usuario eliminado correctamente.');
     }
 
     private function validateCliente(Request $request, ?Cliente $cliente = null): array
@@ -218,7 +230,7 @@ class PanelController extends Controller
             'nombre' => 'required|string|max:255',
             'telefono' => 'required|string|max:50',
             'empresa' => 'nullable|string|max:255',
-            'correo' => 'required|email|unique:clientes,correo,'.($cliente?->id ?? 'NULL'),
+            'correo' => 'required|email|unique:clientes,correo,' . ($cliente?->id ?? 'NULL'),
         ]);
     }
 
@@ -251,8 +263,8 @@ class PanelController extends Controller
     {
         $data = $request->validate([
             'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.($usuario?->id ?? 'NULL'),
-            'password' => ($usuario?->exists ? 'nullable' : 'required').'|string|min:6',
+            'email' => 'required|email|unique:users,email,' . ($usuario?->id ?? 'NULL'),
+            'password' => ($usuario?->exists ? 'nullable' : 'required') . '|string|min:6',
             'rolId' => 'required|exists:roles,id',
         ]);
 
