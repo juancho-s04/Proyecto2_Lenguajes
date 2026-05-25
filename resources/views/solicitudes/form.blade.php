@@ -69,11 +69,6 @@
                                     </div>
                                 @endif
 
-                                @if (!$isAdmin || $isEdit)
-                                    <input type="hidden" name="clienteId"
-                                        value="{{ old('clienteId', $solicitudForm->clienteId ?? '') }}">
-                                @endif
-
                                 @unless ($isAdmin)
                                     <div class="col-md-6">
                                         <label for="nombreSolicitante" class="form-label fw-semibold">Nombre del
@@ -93,11 +88,6 @@
                                 @endunless
 
                                 @if ($isAdmin)
-                                    <input type="hidden" name="nombreSolicitante"
-                                        value="{{ old('nombreSolicitante', $solicitudForm->nombreSolicitante ?? '') }}">
-                                    <input type="hidden" name="correoSolicitante"
-                                        value="{{ old('correoSolicitante', $solicitudForm->correoSolicitante ?? '') }}">
-
                                     <div class="col-md-6">
                                         <label for="estado" class="form-label fw-semibold">Estado</label>
                                         <select id="estado" name="estado" class="form-select" required>
@@ -113,11 +103,6 @@
                                     </div>
                                 @endif
 
-                                @unless ($isAdmin)
-                                    <input type="hidden" name="estado"
-                                        value="{{ old('estado', $solicitudForm->estado ?? '') }}">
-                                @endunless
-
                                 @if ($isAdmin)
                                     <div class="col-md-6">
                                         <label for="fecha" class="form-label fw-semibold">Fecha</label>
@@ -125,14 +110,6 @@
                                             value="{{ old('fecha', $solicitudForm->fecha ?? '') }}" required>
                                     </div>
                                 @endif
-
-                                @unless ($isAdmin)
-                                    <input type="hidden" name="fecha"
-                                        value="{{ old('fecha', $solicitudForm->fecha ?? '') }}">
-                                @endunless
-
-                                <input type="hidden" name="usuarioId"
-                                    value="{{ old('usuarioId', $solicitudForm->usuarioId ?? '') }}">
 
                                 <div class="col-12">
                                     <label for="consultoriaId" class="form-label fw-semibold">Consultoria que

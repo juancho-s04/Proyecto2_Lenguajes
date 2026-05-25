@@ -13,6 +13,10 @@ class RoleMiddleware
         $user = $request->user();
 
         if (! $user || $user->rol?->nombre !== $role) {
+            if (! $request->expectsJson()) {
+                abort(403);
+            }
+
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

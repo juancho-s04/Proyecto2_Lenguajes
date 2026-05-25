@@ -20,6 +20,13 @@ class PanelController extends Controller
         return Auth::user()?->rol?->nombre === 'ADMINISTRADOR';
     }
 
+    private function authorizeSolicitud(Solicitud $solicitud): void
+    {
+        if (! $this->isAdmin() && $solicitud->user_id !== Auth::id()) {
+            abort(403);
+        }
+    }
+
     public function clientes()
     {
         return view('cliente.index', ['clientes' => Cliente::orderBy('id')->get()]);
@@ -121,6 +128,10 @@ class PanelController extends Controller
 
     public function solicitudForm(?Solicitud $solicitud = null)
     {
+        if ($solicitud?->exists) {
+            $this->authorizeSolicitud($solicitud);
+        }
+
         $solicitud ??= new Solicitud([
             'estado' => 'PENDIENTE',
             'fecha' => now()->toDateString(),
@@ -151,6 +162,8 @@ class PanelController extends Controller
 
     public function solicitudUpdate(Request $request, Solicitud $solicitud)
     {
+        $this->authorizeSolicitud($solicitud);
+
         $solicitud->update($this->validateSolicitud($request, $solicitud));
 
         return redirect('/vista/solicitudes')->with('successMessage', 'Solicitud actualizada correctamente.');
@@ -158,6 +171,8 @@ class PanelController extends Controller
 
     public function solicitudDestroy(Solicitud $solicitud)
     {
+        $this->authorizeSolicitud($solicitud);
+
         $solicitud->delete();
 
         return redirect('/vista/solicitudes')->with('successMessage', 'Solicitud eliminada correctamente.');
@@ -224,25 +239,49 @@ class PanelController extends Controller
 
     private function validateSolicitud(Request $request, ?Solicitud $solicitud = null): array
     {
-        $data = $request->validate([
+        $rules = [
             'descripcion' => 'required|string',
-            'nombreSolicitante' => 'required|string|max:255',
-            'correoSolicitante' => 'required|email|max:255',
-            'estado' => 'required|in:PENDIENTE,EN_PROCESO,FINALIZADA',
-            'fecha' => 'required|date',
-            'usuarioId' => 'nullable|exists:users,id',
-            'clienteId' => 'nullable|exists:clientes,id',
             'consultoriaId' => 'required|exists:consultorias,id',
-        ]);
+        ];
+
+        if ($this->isAdmin()) {
+            $rules += [
+                'estado' => 'required|in:PENDIENTE,EN_PROCESO,FINALIZADA',
+                'fecha' => 'required|date',
+                'clienteId' => ($solicitud?->exists ? 'nullable' : 'required').'|exists:clientes,id',
+            ];
+        } else {
+            $rules += [
+                'nombreSolicitante' => 'required|string|max:255',
+                'correoSolicitante' => 'required|email|max:255',
+            ];
+        }
+
+        $data = $request->validate($rules);
+
+        if ($this->isAdmin()) {
+            $cliente = isset($data['clienteId']) ? Cliente::find($data['clienteId']) : $solicitud?->cliente;
+
+            return [
+                'descripcion' => $data['descripcion'],
+                'nombre_solicitante' => $cliente?->nombre ?? $solicitud?->nombre_solicitante,
+                'correo_solicitante' => $cliente?->correo ?? $solicitud?->correo_solicitante,
+                'estado' => $data['estado'],
+                'fecha' => $data['fecha'],
+                'user_id' => $solicitud?->user_id,
+                'cliente_id' => $cliente?->id,
+                'consultoria_id' => $data['consultoriaId'],
+            ];
+        }
 
         return [
             'descripcion' => $data['descripcion'],
             'nombre_solicitante' => $data['nombreSolicitante'],
             'correo_solicitante' => $data['correoSolicitante'],
-            'estado' => $data['estado'],
-            'fecha' => $data['fecha'],
-            'user_id' => $data['usuarioId'] ?? Auth::id(),
-            'cliente_id' => $data['clienteId'] ?? null,
+            'estado' => $solicitud?->estado ?? 'PENDIENTE',
+            'fecha' => $solicitud?->fecha ?? now()->toDateString(),
+            'user_id' => Auth::id(),
+            'cliente_id' => $solicitud?->cliente_id,
             'consultoria_id' => $data['consultoriaId'],
         ];
     }
